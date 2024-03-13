@@ -29,7 +29,7 @@ export default function ChatHeader({ user }: ChatHeaderProps) {
 
   return (
     <div className="h-20">
-      <div className="p-5 border-b flex justify-between items-center">
+      <div className="p-5 border-b flex justify-between items-center h-full">
         <div className="">
           <h1 className="text-xl font-bold">Daily Chat</h1>
           <div className="flex items-center gap-1">
