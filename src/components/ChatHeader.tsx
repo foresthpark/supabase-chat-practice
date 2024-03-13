@@ -2,8 +2,15 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { supabaseBrowser } from "@/lib/supabase/browser";
+import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
-export default function ChatHeader() {
+type ChatHeaderProps = {
+  user: User | undefined;
+};
+
+export default function ChatHeader({ user }: ChatHeaderProps) {
+  const router = useRouter();
   const handleLoginWithGithub = () => {
     const supabase = supabaseBrowser();
     supabase.auth.signInWithOAuth({
@@ -12,6 +19,12 @@ export default function ChatHeader() {
         redirectTo: location.origin + "/auth/callback",
       },
     });
+  };
+
+  const handleLogOut = async () => {
+    const supabase = supabaseBrowser();
+    await supabase.auth.signOut();
+    router.refresh();
   };
 
   return (
@@ -24,7 +37,11 @@ export default function ChatHeader() {
             <h1 className="text-sm text-gray-400">2 Online</h1>
           </div>
         </div>
-        <Button onClick={handleLoginWithGithub}>Login</Button>
+        {user ? (
+          <Button onClick={handleLogOut}>Logout</Button>
+        ) : (
+          <Button onClick={handleLoginWithGithub}>Login</Button>
+        )}
       </div>
     </div>
   );

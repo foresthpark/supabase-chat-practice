@@ -1,12 +1,15 @@
-import ChatHeader from "@/components/ChatHeader";
-import { Button } from "@/components/ui/button";
 import React from "react";
+import ChatHeader from "@/components/ChatHeader";
+import { supabaseServer } from "@/lib/supabase/server";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = supabaseServer();
+  const { data } = await supabase.auth.getSession();
+
   return (
     <div className="max-w-3xl mx-auto md:py-10 h-screen">
       <div className="h-full border rounded-md">
-        <ChatHeader />
+        <ChatHeader user={data.session?.user} />
       </div>
     </div>
   );
